@@ -1,0 +1,14 @@
+<span
+  class="badge"
+  [ngClass]="{
+    'status-badge': type === 'status',
+    'priority-badge': type === 'priority'
+  }"
+  [attr.data-value]="status"
+>
+  <i
+    *ngIf="type === 'priority'"
+    [ngClass]="status | priorityIcon"
+  ></i>
+  {{ status }}
+</span>

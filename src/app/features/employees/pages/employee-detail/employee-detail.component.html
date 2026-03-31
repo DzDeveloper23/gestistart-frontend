@@ -1,0 +1,181 @@
+<div class="employee-detail-container">
+  <app-page-header
+    [title]="employee?.nom || 'Détails de l\'employé'"
+    subtitle="Informations complètes de l'employé"
+    icon="bi-person-circle"
+    [showBackButton]="true"
+  >
+    <button class="btn btn-outline-primary me-2" (click)="editEmployee()">
+      <i class="bi bi-pencil"></i>
+      Modifier
+    </button>
+    <button class="btn btn-outline-danger" (click)="confirmDelete()">
+      <i class="bi bi-trash"></i>
+      Supprimer
+    </button>
+  </app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement de l'employé..."></app-loading-spinner>
+  </div>
+
+  <!-- Employee Details -->
+  <div *ngIf="!isLoading && employee" class="employee-content fade-in">
+    <!-- Header Info -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="employee-info-card card">
+          <div class="card-body">
+            <div class="info-header">
+              <div class="employee-avatar-large">
+                <i class="bi bi-person-circle"></i>
+              </div>
+              <div class="employee-main-info">
+                <h2 class="employee-name">{{ employee.nom }}</h2>
+                <p class="employee-role">
+                  <i class="bi bi-briefcase"></i>
+                  {{ employee.poste }}
+                </p>
+                <div class="employee-badges">
+                  <app-status-badge [status]="employee.status"></app-status-badge>
+                  <span class="badge" [class]="'badge-' + employee.role.toLowerCase()">
+                    {{ employee.role }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <i class="bi bi-envelope"></i>
+                <div>
+                  <span class="info-label">Email</span>
+                  <a [href]="'mailto:' + employee.email" class="info-value">{{ employee.email }}</a>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-shield"></i>
+                <div>
+                  <span class="info-label">Rôle</span>
+                  <span class="info-value">{{ employee.role }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-calendar"></i>
+                <div>
+                  <span class="info-label">Date d'embauche</span>
+                  <span class="info-value">{{ employee.dateEmbauche | dateFormat }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-folder"></i>
+                <div>
+                  <span class="info-label">Projets assignés</span>
+                  <span class="info-value">{{ employeeProjects.length }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <app-employee-stats [stats]="employeeStats"></app-employee-stats>
+      </div>
+    </div>
+
+    <!-- Projects & Tasks -->
+    <div class="row g-4">
+      <!-- Projects -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            <h5 class="card-title">
+              <i class="bi bi-folder text-primary"></i>
+              Projets
+              <span class="badge bg-primary ms-2">{{ employeeProjects.length }}</span>
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="projects-list" *ngIf="employeeProjects.length > 0">
+              <div
+                class="project-item"
+                *ngFor="let project of employeeProjects"
+                (click)="viewProject(project._id)"
+              >
+                <div class="item-header">
+                  <h6 class="item-title">{{ project.titre }}</h6>
+                  <app-status-badge [status]="project.status"></app-status-badge>
+                </div>
+                <div class="item-meta">
+                  <span class="meta-text">
+                    <i class="bi bi-currency-euro"></i>
+                    {{ project.budget | number:'1.0-0' }}€
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="no-data" *ngIf="employeeProjects.length === 0">
+              <i class="bi bi-folder-x"></i>
+              <p>Aucun projet assigné</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tasks -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            <h5 class="card-title">
+              <i class="bi bi-check-square text-success"></i>
+              Tâches
+              <span class="badge bg-success ms-2">{{ employeeTasks.length }}</span>
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="tasks-list" *ngIf="employeeTasks.length > 0">
+              <div
+                class="task-item"
+                *ngFor="let task of employeeTasks"
+                (click)="viewTask(task._id)"
+              >
+                <div class="item-header">
+                  <h6 class="item-title">{{ task.titre }}</h6>
+                  <app-status-badge [status]="task.priorite" type="priority"></app-status-badge>
+                </div>
+                <div class="item-meta">
+                  <app-status-badge [status]="task.status"></app-status-badge>
+                  <span class="meta-text" *ngIf="task.dateEcheance">
+                    <i class="bi bi-calendar"></i>
+                    {{ task.dateEcheance | dateFormat }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="no-data" *ngIf="employeeTasks.length === 0">
+              <i class="bi bi-check-circle"></i>
+              <p>Aucune tâche assignée</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer l'employé"
+    message="Êtes-vous sûr de vouloir supprimer cet employé ? Cette action est irréversible."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteEmployee()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

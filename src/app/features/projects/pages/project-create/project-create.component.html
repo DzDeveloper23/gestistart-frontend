@@ -1,0 +1,22 @@
+<div class="project-create-container">
+  <app-page-header
+    title="Créer un projet"
+    subtitle="Ajouter un nouveau projet à votre portefeuille"
+    icon="bi-plus-circle"
+    [showBackButton]="true"
+  ></app-page-header>
+
+  <div class="form-container fade-in">
+    <div class="card">
+      <div class="card-body">
+        <app-project-form
+          [clients]="clients"
+          [employees]="employees"
+          [isLoading]="isLoading"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()"
+        ></app-project-form>
+      </div>
+    </div>
+  </div>
+</div>

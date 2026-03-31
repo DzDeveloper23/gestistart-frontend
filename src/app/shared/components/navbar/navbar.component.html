@@ -1,0 +1,125 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Search Bar -->
+    <div class="navbar-search">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Rechercher..."
+      >
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-right">
+      <!-- Notifications -->
+      <div class="navbar-item notifications-menu" (clickOutside)="showNotifications = false">
+        <button
+          class="btn-icon"
+          title="Notifications"
+          (click)="toggleNotifications()"
+          [class.active]="showNotifications"
+        >
+          <i class="bi bi-bell"></i>
+          <!-- Badge avec nombre de notifications non lues -->
+          <span class="badge-dot" *ngIf="getUnreadCount() > 0">
+            {{ getUnreadCount() }}
+          </span>
+        </button>
+
+        <!-- Notifications Dropdown -->
+        <div class="notifications-dropdown" [class.show]="showNotifications">
+          <div class="dropdown-header">
+            <h6>Notifications</h6>
+            <button
+              class="btn-link text-small"
+              *ngIf="getUnreadCount() > 0"
+              (click)="markAllAsRead()"
+            >
+              Marquer tout comme lu
+            </button>
+          </div>
+
+          <!-- Notifications List -->
+          <div class="notifications-list">
+            <div
+              *ngFor="let notif of notifications"
+              class="notification-item"
+              [class.unread]="!notif.read"
+              (click)="markAsRead(notif)"
+            >
+              <div class="notification-icon" [ngClass]="'type-' + notif.type">
+                <i [ngClass]="getNotificationIcon(notif.type)"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">{{ notif.title }}</div>
+                <div class="notification-message">{{ notif.message }}</div>
+                <div class="notification-time" *ngIf="notif.timestamp">
+                  {{ notif.timestamp | date:'short' }}
+                </div>
+              </div>
+              <button
+                class="btn-close"
+                (click)="deleteNotification(notif.id); $event.stopPropagation()"
+              >
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="notifications.length === 0" class="empty-state">
+            <i class="bi bi-bell-slash"></i>
+            <p>Aucune notification</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Menu -->
+      <div class="navbar-item user-menu" (clickOutside)="showUserMenu = false">
+        <button class="user-btn" (click)="toggleUserMenu()">
+          <div class="user-avatar">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name">{{ currentUser?.nom }}</span>
+            <span class="user-role">{{ currentUser?.role }}</span>
+          </div>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+
+        <!-- Dropdown -->
+        <div class="user-dropdown" [class.show]="showUserMenu">
+          <div class="dropdown-header">
+            <div class="user-avatar-lg">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="user-details">
+              <div class="dropdown-name">{{ currentUser?.nom }}</div>
+              <div class="dropdown-email" [title]="currentUser?.email">{{ currentUser?.email }}</div>
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <a class="dropdown-item" (click)="goToProfile()">
+            <i class="bi bi-person"></i>
+            <span>Mon profil</span>
+          </a>
+
+          <a class="dropdown-item" routerLink="/settings">
+            <i class="bi bi-gear"></i>
+            <span>Paramètres</span>
+          </a>
+
+          <div class="dropdown-divider"></div>
+
+          <a class="dropdown-item text-danger" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Déconnexion</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

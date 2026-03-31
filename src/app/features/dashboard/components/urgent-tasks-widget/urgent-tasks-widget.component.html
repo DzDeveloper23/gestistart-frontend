@@ -1,0 +1,57 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h5 class="card-title">
+      <i class="bi bi-exclamation-triangle text-warning"></i>
+      Tâche Urgente
+    </h5>
+    <button class="btn btn-sm btn-outline-primary" (click)="viewAllTasks()">
+      Voir tout
+      <i class="bi bi-arrow-right"></i>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="tasks-list" *ngIf="displayedTasks.length > 0">
+      <div
+        class="task-item"
+        *ngFor="let task of displayedTasks"
+        [class.overdue]="isOverdue(task)"
+        (click)="viewTask(task._id)"
+      >
+        <div class="task-checkbox">
+          <i class="bi bi-circle" *ngIf="task.status !== 'Terminée'"></i>
+          <i class="bi bi-check-circle-fill text-success" *ngIf="task.status === 'Terminée'"></i>
+        </div>
+        <div class="task-content">
+          <div class="task-header">
+            <h6 class="task-title">{{ task.titre }}</h6>
+            <app-status-badge
+              [status]="task.priorite"
+              type="priority"
+            ></app-status-badge>
+          </div>
+          <div class="task-meta">
+            <div class="meta-item">
+              <i class="bi bi-folder"></i>
+              <span>{{ task.projectId?.titre }}</span>
+            </div>
+            <div class="meta-item" *ngIf="task.assigneId">
+              <i class="bi bi-person"></i>
+              <span>{{ task.assigneId?.nom }}</span>
+            </div>
+            <div class="meta-item" *ngIf="task.dateEcheance">
+              <i class="bi bi-calendar" [class.text-danger]="isOverdue(task)"></i>
+              <span [class.text-danger]="isOverdue(task)">
+                {{ task.dateEcheance | dateFormat }}
+              </span>
+            </div>
+          </div>
+          <app-status-badge [status]="task.status"></app-status-badge>
+        </div>
+      </div>
+    </div>
+    <div class="no-data" *ngIf="displayedTasks.length === 0">
+      <i class="bi bi-check-circle"></i>
+      <p>Aucune tâche urgente</p>
+    </div>
+  </div>
+</div>

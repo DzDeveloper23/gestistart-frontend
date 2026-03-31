@@ -1,0 +1,27 @@
+<div class="employee-edit-container">
+  <app-page-header
+    [title]="'Modifier ' + (employee?.nom || 'l\'employé')"
+    subtitle="Mettre à jour les informations de l'employé"
+    icon="bi-pencil"
+    [showBackButton]="true"
+  ></app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoadingEmployee" class="loading-container">
+    <app-loading-spinner message="Chargement de l'employé..."></app-loading-spinner>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!isLoadingEmployee && employee" class="form-container fade-in">
+    <div class="card">
+      <div class="card-body">
+        <app-employee-form
+          [employee]="employee"
+          [isLoading]="isLoading"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()"
+        ></app-employee-form>
+      </div>
+    </div>
+  </div>
+</div>

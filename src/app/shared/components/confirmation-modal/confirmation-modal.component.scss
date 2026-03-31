@@ -1,0 +1,129 @@
+@use '../../../../assets/styles/variables';
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: variables.$zindex-modal-backdrop;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: variables.$zindex-modal;
+  max-width: 500px;
+  width: 90%;
+  animation: slideDown 0.3s ease;
+}
+
+.modal-content {
+  background: white;
+  border-radius: variables.$border-radius-lg;
+  box-shadow: variables.$box-shadow-lg;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+
+  .modal-icon {
+    margin-bottom: 1rem;
+
+    i {
+      font-size: 3rem;
+    }
+  }
+
+  &[data-type="danger"] .modal-icon i {
+    color: variables.$danger;
+  }
+
+  &[data-type="warning"] .modal-icon i {
+    color: variables.$warning;
+  }
+
+  &[data-type="info"] .modal-icon i {
+    color: variables.$info;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: variables.$gray-900;
+    margin: 0;
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: variables.$gray-100;
+    color: variables.$gray-600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: variables.$transition-fast;
+
+    &:hover {
+      background: variables.$gray-200;
+      color: variables.$gray-900;
+    }
+  }
+}
+
+.modal-body {
+  padding: 0 2rem 2rem;
+  text-align: center;
+
+  p {
+    color: variables.$gray-700;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.modal-footer {
+  padding: 1.5rem 2rem;
+  background: variables.$gray-100;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  .btn {
+    min-width: 120px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}

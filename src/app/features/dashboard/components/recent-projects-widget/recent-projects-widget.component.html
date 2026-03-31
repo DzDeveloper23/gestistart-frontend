@@ -1,0 +1,60 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h5 class="card-title">
+      <i class="bi bi-folder text-primary"></i>
+      Projets Récents
+    </h5>
+    <button class="btn btn-sm btn-outline-primary" (click)="viewAllProjects()">
+      Voir tout
+      <i class="bi bi-arrow-right"></i>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="projects-list" *ngIf="displayedProjects.length > 0">
+      <div
+        class="project-item"
+        *ngFor="let project of displayedProjects"
+        (click)="viewProject(project._id)"
+      >
+        <div class="project-header">
+          <div class="project-info">
+            <h6 class="project-title">{{ project.titre }}</h6>
+            <p class="project-client">{{ project.clientId?.nomEntreprise }}</p>
+          </div>
+          <app-status-badge [status]="project.status"></app-status-badge>
+        </div>
+        <div class="project-meta">
+          <div class="meta-item">
+            <i class="bi bi-calendar"></i>
+            <span>{{ project.dateFin | dateFormat }}</span>
+          </div>
+          <div class="meta-item">
+            <i class="bi bi-currency-euro"></i>
+            <span>{{ project.budget | number:'1.0-0' }}€</span>
+          </div>
+          <app-status-badge
+            [status]="project.priorite"
+            type="priority"
+          ></app-status-badge>
+        </div>
+        <div class="project-progress">
+          <div class="progress-info">
+            <span class="progress-label">Budget utilisé</span>
+            <span class="progress-value">{{ getBudgetPercent(project) | number:'1.0-0' }}%</span>
+          </div>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              [class]="'bg-' + getBudgetColor(getBudgetPercent(project))"
+              [style.width.%]="getBudgetPercent(project)"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="no-data" *ngIf="displayedProjects.length === 0">
+      <i class="bi bi-folder-x"></i>
+      <p>Aucun projet récent</p>
+    </div>
+  </div>
+</div>

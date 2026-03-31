@@ -1,0 +1,20 @@
+<div class="client-create-container">
+  <app-page-header
+    title="Créer un client"
+    subtitle="Ajouter un nouveau client à votre portefeuille"
+    icon="bi-plus-circle"
+    [showBackButton]="true"
+  ></app-page-header>
+
+  <div class="form-container fade-in">
+    <div class="card">
+      <div class="card-body">
+        <app-client-form
+          [isLoading]="isLoading"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()"
+        ></app-client-form>
+      </div>
+    </div>
+  </div>
+</div>

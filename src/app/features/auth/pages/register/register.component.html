@@ -1,0 +1,154 @@
+<div class="auth-form">
+  <div class="auth-header">
+    <h2 class="auth-title">Créer un compte</h2>
+    <p class="auth-subtitle">Rejoignez GestiStart dès aujourd'hui</p>
+  </div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Nom -->
+    <div class="form-group">
+      <label for="nom" class="form-label">
+        <i class="bi bi-person"></i>
+        Nom complet
+      </label>
+      <input
+        type="text"
+        id="nom"
+        class="form-control"
+        formControlName="nom"
+        placeholder="Votre nom complet"
+        [class.is-invalid]="nom?.invalid && nom?.touched"
+      >
+      <div class="invalid-feedback" *ngIf="nom?.invalid && nom?.touched">
+        <span *ngIf="nom?.errors?.['required']">Le nom est obligatoire</span>
+        <span *ngIf="nom?.errors?.['minlength']">Minimum 3 caractères</span>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email" class="form-label">
+        <i class="bi bi-envelope"></i>
+        Email
+      </label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="votre.email@exemple.com"
+        [class.is-invalid]="email?.invalid && email?.touched"
+      >
+      <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+        <span *ngIf="email?.errors?.['required']">L'email est obligatoire</span>
+        <span *ngIf="email?.errors?.['email']">Format d'email invalide</span>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password" class="form-label">
+        <i class="bi bi-lock"></i>
+        Mot de passe
+      </label>
+      <div class="password-input-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="••••••••"
+          [class.is-invalid]="password?.invalid && password?.touched"
+        >
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility('password')"
+        >
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
+        <span *ngIf="password?.errors?.['required']">Le mot de passe est obligatoire</span>
+        <span *ngIf="password?.errors?.['minlength']">Minimum 6 caractères</span>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group">
+      <label for="confirmPassword" class="form-label">
+        <i class="bi bi-lock-fill"></i>
+        Confirmer le mot de passe
+      </label>
+      <div class="password-input-wrapper">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          id="confirmPassword"
+          class="form-control"
+          formControlName="confirmPassword"
+          placeholder="••••••••"
+          [class.is-invalid]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
+        >
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility('confirmPassword')"
+        >
+          <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
+        <span *ngIf="confirmPassword?.errors?.['required']">Veuillez confirmer le mot de passe</span>
+      </div>
+      <div class="invalid-feedback" *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched">
+        <span>Les mots de passe ne correspondent pas</span>
+      </div>
+    </div>
+
+
+
+    <!-- Terms & Conditions -->
+    <div class="form-group">
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="acceptTerms"
+          formControlName="acceptTerms"
+          [class.is-invalid]="acceptTerms?.invalid && acceptTerms?.touched"
+        >
+        <label class="form-check-label" for="acceptTerms">
+          J'accepte les <a href="#" class="terms-link">conditions d'utilisation</a> et la
+          <a href="#" class="terms-link">politique de confidentialité</a>
+        </label>
+      </div>
+      <div class="invalid-feedback" *ngIf="acceptTerms?.invalid && acceptTerms?.touched">
+        <span>Vous devez accepter les conditions</span>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-primary btn-block"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="!isLoading">
+        <i class="bi bi-person-plus"></i>
+        Créer mon compte
+      </span>
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Création du compte...
+      </span>
+    </button>
+  </form>
+
+  <!-- Login Link -->
+  <div class="auth-footer">
+    <p>
+      Vous avez déjà un compte ?
+      <a routerLink="/auth/login" class="auth-link">Se connecter</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="modal-backdrop" *ngIf="show" (click)="onBackdropClick()"></div>
+
+<div class="modal-dialog" *ngIf="show" (click)="$event.stopPropagation()">
+  <div class="modal-content">
+    <!-- Header -->
+    <div class="modal-header" [attr.data-type]="type">
+      <div class="modal-icon">
+        <i
+          class="bi"
+          [ngClass]="{
+            'bi-exclamation-triangle-fill': type === 'warning',
+            'bi-exclamation-circle-fill': type === 'danger',
+            'bi-info-circle-fill': type === 'info'
+          }"
+        ></i>
+      </div>
+      <h3 class="modal-title">{{ title }}</h3>
+      <button class="btn-close" (click)="onCancel()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <p>{{ message }}</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="onCancel()">
+        {{ cancelText }}
+      </button>
+      <button
+        class="btn"
+        [ngClass]="{
+          'btn-danger': type === 'danger',
+          'btn-warning': type === 'warning',
+          'btn-primary': type === 'info'
+        }"
+        (click)="onConfirm()"
+      >
+        {{ confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

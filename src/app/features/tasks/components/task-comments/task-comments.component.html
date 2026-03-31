@@ -1,0 +1,62 @@
+<div class="task-comments">
+  <div class="comments-header">
+    <h6 class="comments-title">
+      <i class="bi bi-chat"></i>
+      Commentaires
+      <span class="comments-count">{{ comments.length }}</span>
+    </h6>
+  </div>
+
+  <!-- Add Comment Form -->
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="comment-form">
+    <div class="form-group">
+      <textarea
+        class="form-control"
+        formControlName="texte"
+        rows="3"
+        placeholder="Ajouter un commentaire..."
+        [class.is-invalid]="texte?.invalid && texte?.touched"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="texte?.invalid && texte?.touched">
+        <span *ngIf="texte?.errors?.['required']">Le commentaire est obligatoire</span>
+        <span *ngIf="texte?.errors?.['minlength']">Minimum 3 caractères</span>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm" [disabled]="commentForm.invalid">
+      <i class="bi bi-send"></i>
+      Envoyer
+    </button>
+  </form>
+
+  <!-- Comments List -->
+  <div class="comments-list" *ngIf="comments.length > 0">
+    <div class="comment-item" *ngFor="let comment of comments">
+      <div class="comment-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div class="comment-content">
+        <div class="comment-header">
+          <div class="comment-author">
+            <span class="author-name">{{ comment.userId?.nom }}</span>
+            <span class="comment-date">{{ comment.createdAt | dateFormat:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <button
+            *ngIf="canDeleteComment(comment)"
+            class="btn-delete"
+            (click)="onDeleteComment(comment._id)"
+            title="Supprimer"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+        <p class="comment-text">{{ comment.texte }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Comments -->
+  <div class="no-comments" *ngIf="comments.length === 0">
+    <i class="bi bi-chat-dots"></i>
+    <p>Aucun commentaire. Soyez le premier à commenter !</p>
+  </div>
+</div>

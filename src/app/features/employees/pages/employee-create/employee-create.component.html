@@ -1,0 +1,21 @@
+<div class="employee-create-container">
+  <app-page-header
+    title="Créer un employé"
+    subtitle="Ajouter un nouveau membre à l'équipe"
+    icon="bi-plus-circle"
+    [showBackButton]="true"
+  ></app-page-header>
+
+  <div class="form-container fade-in">
+    <div class="card">
+      <div class="card-body">
+        <app-employee-form
+          [users]="users"
+          [isLoading]="isLoading"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()"
+        ></app-employee-form>
+      </div>
+    </div>
+  </div>
+</div>

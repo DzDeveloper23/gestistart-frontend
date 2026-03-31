@@ -1,0 +1,73 @@
+@use '../../../../../assets/styles/variables';
+
+.dashboard-container {
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+  }
+
+  .dashboard-content {
+    .status-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+
+      .status-item {
+        .status-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+
+          .status-label {
+            font-weight: 500;
+            color: variables.$gray-700;
+            font-size: 0.875rem;
+          }
+
+          .status-count {
+            font-weight: 700;
+            color: variables.$gray-900;
+            font-size: 1.125rem;
+          }
+        }
+
+        .progress {
+          height: 8px;
+          background-color: variables.$gray-200;
+          border-radius: 4px;
+          overflow: hidden;
+
+          .progress-bar {
+            height: 100%;
+            transition: width 0.6s ease;
+            border-radius: 4px;
+
+            &.bg-success {
+              background-color: variables.$success;
+            }
+
+            &.bg-warning {
+              background-color: variables.$warning;
+            }
+
+            &.bg-primary {
+              background-color: variables.$primary;
+            }
+
+            &.bg-secondary {
+              background-color: variables.$gray-500;
+            }
+
+            &.bg-info {
+              background-color: variables.$info;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<div class="card h-100">
+  <div class="card-body">
+    <h5 class="card-title">
+      <i class="bi bi-folder text-primary"></i>
+      Projets par Statut
+    </h5>
+    <div class="chart-container" *ngIf="data">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [labels]="chartOptions.labels!"
+        [colors]="chartOptions.colors!"
+        [legend]="chartOptions.legend!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [responsive]="chartOptions.responsive!"
+      ></apx-chart>
+    </div>
+    <div class="no-data" *ngIf="!data">
+      <i class="bi bi-inbox"></i>
+      <p>Aucune donnée disponible</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="dashboard-container">
+  <app-page-header
+    title="Dashboard"
+    subtitle="Vue d'ensemble de votre activité"
+    icon="bi-speedometer2"
+  >
+    <button class="btn btn-primary" (click)="refreshDashboard()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Actualiser
+    </button>
+  </app-page-header>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement du dashboard..."></app-loading-spinner>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!isLoading" class="dashboard-content fade-in">
+    <!-- KPI Cards -->
+    <app-kpi-cards [kpis]="kpis"></app-kpi-cards>
+
+    <!-- Alerts -->
+    <app-alerts-widget
+      [riskProjects]="riskProjects"
+      [overdueProjects]="overdueProjects"
+    ></app-alerts-widget>
+
+    <!-- Charts Row -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-4">
+        <app-tasks-priority-chart [data]="tasksByPriority"></app-tasks-priority-chart>
+      </div>
+      <div class="col-lg-4">
+        <app-projects-status-chart [data]="projectsByStatus"></app-projects-status-chart>
+      </div>
+      <div class="col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-check-square text-primary"></i>
+              Tâches par Statut
+            </h5>
+            <div class="status-list">
+              <div class="status-item" *ngFor="let item of tasksByStatus | keyvalue">
+                <div class="status-info">
+                  <span class="status-label">{{ item.key }}</span>
+                  <span class="status-count">{{ item.value }}</span>
+                </div>
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    [style.width.%]="(+item.value / kpis.taches.total * 100)"
+                    [ngClass]="getStatusColorClass(item.key)"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Chart -->
+    <div class="row g-4 mb-4">
+      <div class="col-12">
+        <app-activity-chart [data]="activityData"></app-activity-chart>
+      </div>
+    </div>
+
+    <!-- Recent Projects & Urgent Tasks -->
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <app-recent-projects-widget [projects]="recentProjects"></app-recent-projects-widget>
+      </div>
+      <div class="col-lg-6">
+        <app-urgent-tasks-widget [tasks]="urgentTasks"></app-urgent-tasks-widget>
+      </div>
+    </div>
+  </div>
+</div>

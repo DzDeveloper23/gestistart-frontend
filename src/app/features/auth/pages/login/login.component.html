@@ -1,0 +1,92 @@
+<div class="auth-form">
+  <div class="auth-header">
+    <h2 class="auth-title">Connexion</h2>
+    <p class="auth-subtitle">Connectez-vous à votre compte GestiStart</p>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email" class="form-label">
+        <i class="bi bi-envelope"></i>
+        Email
+      </label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="votre.email@exemple.com"
+        [class.is-invalid]="email?.invalid && email?.touched"
+      >
+      <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+        <span *ngIf="email?.errors?.['required']">L'email est obligatoire</span>
+        <span *ngIf="email?.errors?.['email']">Format d'email invalide</span>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password" class="form-label">
+        <i class="bi bi-lock"></i>
+        Mot de passe
+      </label>
+      <div class="password-input-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="••••••••"
+          [class.is-invalid]="password?.invalid && password?.touched"
+        >
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
+        >
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
+        <span *ngIf="password?.errors?.['required']">Le mot de passe est obligatoire</span>
+        <span *ngIf="password?.errors?.['minlength']">Minimum 6 caractères</span>
+      </div>
+    </div>
+
+    <!-- Remember Me & Forgot Password -->
+    <div class="form-options">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="remember">
+        <label class="form-check-label" for="remember">
+          Se souvenir de moi
+        </label>
+      </div>
+      <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-primary btn-block"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="!isLoading">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Se connecter
+      </span>
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Connexion...
+      </span>
+    </button>
+  </form>
+
+  <!-- Register Link -->
+  <div class="auth-footer">
+    <p>
+      Pas encore de compte ?
+      <a routerLink="/auth/register" class="auth-link">Créer un compte</a>
+    </p>
+  </div>
+</div>

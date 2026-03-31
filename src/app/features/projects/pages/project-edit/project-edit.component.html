@@ -1,0 +1,29 @@
+<div class="project-edit-container">
+  <app-page-header
+    [title]="'Modifier ' + (project?.titre || 'le projet')"
+    subtitle="Mettre à jour les informations du projet"
+    icon="bi-pencil"
+    [showBackButton]="true"
+  ></app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoadingProject" class="loading-container">
+    <app-loading-spinner message="Chargement du projet..."></app-loading-spinner>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!isLoadingProject && project" class="form-container fade-in">
+    <div class="card">
+      <div class="card-body">
+        <app-project-form
+          [project]="project"
+          [clients]="clients"
+          [employees]="employees"
+          [isLoading]="isLoading"
+          (submitForm)="onSubmit($event)"
+          (cancel)="onCancel()"
+        ></app-project-form>
+      </div>
+    </div>
+  </div>
+</div>

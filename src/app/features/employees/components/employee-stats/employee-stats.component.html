@@ -1,0 +1,133 @@
+<div class="employee-stats" *ngIf="stats">
+  <div class="row g-4">
+    <!-- Tasks Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-check-square stat-icon text-primary"></i>
+          <h5 class="stat-title">Tâches</h5>
+        </div>
+        <div class="stat-body">
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total</span>
+              <span class="stat-value">{{ stats.tachesTotales }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">En cours</span>
+              <span class="stat-value text-primary">{{ stats.tachesEnCours }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Terminées</span>
+              <span class="stat-value text-success">{{ stats.tachesTerminees }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">En retard</span>
+              <span class="stat-value text-danger">{{ stats.tachesEnRetard }}</span>
+            </div>
+          </div>
+
+          <div class="progress-wrapper">
+            <div class="progress-label">
+              <span>Taux de complétion</span>
+              <span class="progress-value" [class]="'text-' + getCompletionColor()">
+                {{ stats.tauxCompletion }}%
+              </span>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [class]="'bg-' + getCompletionColor()"
+                [style.width.%]="stats.tauxCompletion"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priority Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-flag stat-icon text-warning"></i>
+          <h5 class="stat-title">Tâches par Priorité</h5>
+        </div>
+        <div class="stat-body">
+          <div class="priority-list">
+            <div class="priority-item">
+              <div class="priority-info">
+                <i class="bi bi-arrow-down-circle text-info"></i>
+                <span class="priority-label">Basse</span>
+              </div>
+              <span class="priority-count">{{ stats.tachesParPriorite?.Basse || 0 }}</span>
+            </div>
+            <div class="priority-item">
+              <div class="priority-info">
+                <i class="bi bi-dash-circle text-warning"></i>
+                <span class="priority-label">Moyenne</span>
+              </div>
+              <span class="priority-count">{{ stats.tachesParPriorite?.Moyenne || 0 }}</span>
+            </div>
+            <div class="priority-item">
+              <div class="priority-info">
+                <i class="bi bi-arrow-up-circle text-danger"></i>
+                <span class="priority-label">Haute</span>
+              </div>
+              <span class="priority-count">{{ stats.tachesParPriorite?.Haute || 0 }}</span>
+            </div>
+            <div class="priority-item">
+              <div class="priority-info">
+                <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                <span class="priority-label">Critique</span>
+              </div>
+              <span class="priority-count">{{ stats.tachesParPriorite?.Critique || 0 }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects & Info -->
+    <div class="col-12">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-info-circle stat-icon text-info"></i>
+          <h5 class="stat-title">Informations</h5>
+        </div>
+        <div class="stat-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <i class="bi bi-folder"></i>
+              <div>
+                <span class="info-label">Projets assignés</span>
+                <span class="info-value">{{ stats.nombreProjets }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bi bi-briefcase"></i>
+              <div>
+                <span class="info-label">Poste</span>
+                <span class="info-value">{{ stats.poste }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bi bi-shield"></i>
+              <div>
+                <span class="info-label">Rôle</span>
+                <span class="info-value">{{ stats.role }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bi bi-tag"></i>
+              <div>
+                <span class="info-label">Statut</span>
+                <app-status-badge [status]="stats.status"></app-status-badge>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

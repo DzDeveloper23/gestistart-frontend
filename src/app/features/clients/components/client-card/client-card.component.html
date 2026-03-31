@@ -1,0 +1,49 @@
+<div class="client-card card-hover">
+  <div class="client-header">
+    <div class="client-status">
+      <app-status-badge [status]="client.status"></app-status-badge>
+    </div>
+    <div class="client-actions">
+      <button class="btn-icon" (click)="onEdit()" title="Modifier">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button class="btn-icon text-danger" (click)="onDelete()" title="Supprimer">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="client-body" (click)="onView()">
+    <div class="client-avatar">
+      <i class="bi bi-building"></i>
+    </div>
+
+    <h5 class="client-name">{{ client.nomEntreprise }}</h5>
+    <p class="client-contact">
+      <i class="bi bi-person"></i>
+      {{ client.nomContact }}
+    </p>
+
+    <div class="client-info">
+      <div class="info-item">
+        <i class="bi bi-envelope"></i>
+        <span>{{ client.email }}</span>
+      </div>
+      <div class="info-item" *ngIf="client.telephone">
+        <i class="bi bi-telephone"></i>
+        <span>{{ client.telephone }}</span>
+      </div>
+      <div class="info-item" *ngIf="client.adresse">
+        <i class="bi bi-geo-alt"></i>
+        <span>{{ client.adresse }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="client-footer">
+    <span class="client-date">
+      <i class="bi bi-clock"></i>
+      Ajouté le {{ client.createdAt | dateFormat }}
+    </span>
+  </div>
+</div>

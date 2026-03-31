@@ -1,0 +1,148 @@
+<div class="tasks-list-container">
+  <app-page-header
+    title="Tâches"
+    subtitle="Gérer toutes vos tâches"
+    icon="bi-check-square"
+  >
+    <button class="btn btn-outline-primary me-2" (click)="goToKanban()">
+      <i class="bi bi-kanban"></i>
+      Vue Kanban
+    </button>
+    <button class="btn btn-primary" (click)="createTask()">
+      <i class="bi bi-plus-circle"></i>
+      Nouvelle tâche
+    </button>
+  </app-page-header>
+
+  <!-- Filters -->
+  <div class="filters-section card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label for="projectFilter" class="form-label">
+            <i class="bi bi-folder"></i>
+            Projet
+          </label>
+          <select
+            id="projectFilter"
+            class="form-control"
+            [(ngModel)]="selectedProject"
+            (change)="onFilterChange()"
+          >
+            <option value="">Tous les projets</option>
+            <option *ngFor="let project of projects" [value]="project._id">
+              {{ project.titre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="statusFilter" class="form-label">
+            <i class="bi bi-funnel"></i>
+            Statut
+          </label>
+          <select
+            id="statusFilter"
+            class="form-control"
+            [(ngModel)]="selectedStatus"
+            (change)="onFilterChange()"
+          >
+            <option value="">Tous les statuts</option>
+            <option value="À faire">À faire</option>
+            <option value="En cours">En cours</option>
+            <option value="En révision">En révision</option>
+            <option value="Terminée">Terminée</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="priorityFilter" class="form-label">
+            <i class="bi bi-flag"></i>
+            Priorité
+          </label>
+          <select
+            id="priorityFilter"
+            class="form-control"
+            [(ngModel)]="selectedPriority"
+            (change)="onFilterChange()"
+          >
+            <option value="">Toutes les priorités</option>
+            <option value="Basse">Basse</option>
+            <option value="Moyenne">Moyenne</option>
+            <option value="Haute">Haute</option>
+            <option value="Critique">Critique</option>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
+            <i class="bi bi-x-circle"></i>
+            Réinitialiser
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement des tâches..."></app-loading-spinner>
+  </div>
+
+  <!-- Tasks Grid -->
+  <div *ngIf="!isLoading && tasks.length > 0" class="tasks-grid fade-in">
+    <app-task-card
+      *ngFor="let task of tasks"
+      [task]="task"
+      (view)="viewTask($event)"
+      (edit)="editTask($event)"
+      (delete)="confirmDelete($event)"
+      (statusChange)="onStatusChange($event)"
+    ></app-task-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && tasks.length === 0" class="empty-state">
+    <i class="bi bi-check-circle"></i>
+    <h3>Aucune tâche trouvée</h3>
+    <p>Commencez par créer votre première tâche</p>
+    <button class="btn btn-primary" (click)="createTask()">
+      <i class="bi bi-plus-circle"></i>
+      Créer une tâche
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && tasks.length > 0 && totalPages > 1" class="pagination-container">
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="onPageChange(currentPage - 1)">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          [class.active]="currentPage === i + 1"
+        >
+          <a class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="onPageChange(currentPage + 1)">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer la tâche"
+    message="Êtes-vous sûr de vouloir supprimer cette tâche ? Cette action est irréversible."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteTask()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

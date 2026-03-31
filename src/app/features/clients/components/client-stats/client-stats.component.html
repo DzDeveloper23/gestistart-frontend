@@ -1,0 +1,82 @@
+<div class="client-stats" *ngIf="stats">
+  <div class="row g-4">
+    <!-- Projects Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-folder stat-icon text-primary"></i>
+          <h5 class="stat-title">Projets</h5>
+        </div>
+        <div class="stat-body">
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total</span>
+              <span class="stat-value">{{ stats.totalProjects }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">En cours</span>
+              <span class="stat-value text-primary">{{ stats.projectsEnCours }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Terminés</span>
+              <span class="stat-value text-success">{{ stats.projectsTermines }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-currency-euro stat-icon text-success"></i>
+          <h5 class="stat-title">Budget</h5>
+        </div>
+        <div class="stat-body">
+          <div class="budget-values">
+            <div class="budget-item">
+              <span class="budget-label">Total</span>
+              <span class="budget-value">{{ stats.budgetTotal | number:'1.0-0' }}€</span>
+            </div>
+            <div class="budget-item">
+              <span class="budget-label">Utilisé</span>
+              <span class="budget-value" [class]="'text-' + getBudgetColorClass()">
+                {{ stats.budgetUtilise | number:'1.0-0' }}€
+              </span>
+            </div>
+            <div class="budget-item">
+              <span class="budget-label">Restant</span>
+              <span class="budget-value">{{ stats.budgetRestant | number:'1.0-0' }}€</span>
+            </div>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [class]="'bg-' + getBudgetColorClass()"
+                [style.width.%]="stats.budgetPercent"
+              ></div>
+            </div>
+            <span class="progress-percent" [class]="'text-' + getBudgetColorClass()">
+              {{ stats.budgetPercent }}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-12">
+      <div class="stat-card stat-status">
+        <div class="status-content">
+          <div class="status-info">
+            <i class="bi bi-info-circle"></i>
+            <span>Statut du client</span>
+          </div>
+          <app-status-badge [status]="stats.statusClient"></app-status-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

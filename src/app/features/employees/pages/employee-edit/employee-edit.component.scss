@@ -1,0 +1,19 @@
+@use '../../../../../assets/styles/variables';
+
+.employee-edit-container {
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+  }
+
+  .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+
+    .card {
+      box-shadow: variables.$box-shadow-sm;
+    }
+  }
+}

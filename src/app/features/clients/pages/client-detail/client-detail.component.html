@@ -1,0 +1,164 @@
+<div class="client-detail-container">
+  <app-page-header
+    [title]="client?.nomEntreprise || 'Détails du client'"
+    subtitle="Informations complètes du client"
+    icon="bi-building"
+    [showBackButton]="true"
+  >
+    <button class="btn btn-outline-primary me-2" (click)="editClient()">
+      <i class="bi bi-pencil"></i>
+      Modifier
+    </button>
+    <button class="btn btn-outline-danger" (click)="confirmDelete()">
+      <i class="bi bi-trash"></i>
+      Supprimer
+    </button>
+  </app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement du client..."></app-loading-spinner>
+  </div>
+
+  <!-- Client Details -->
+  <div *ngIf="!isLoading && client" class="client-content fade-in">
+    <!-- Header Info -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="client-info-card card">
+          <div class="card-body">
+            <div class="info-header">
+              <div class="client-avatar-large">
+                <i class="bi bi-building"></i>
+              </div>
+              <div class="client-main-info">
+                <h2 class="client-name">{{ client.nomEntreprise }}</h2>
+                <p class="client-contact">
+                  <i class="bi bi-person"></i>
+                  {{ client.nomContact }}
+                </p>
+                <app-status-badge [status]="client.status"></app-status-badge>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <i class="bi bi-envelope"></i>
+                <div>
+                  <span class="info-label">Email</span>
+                  <a [href]="'mailto:' + client.email" class="info-value">{{ client.email }}</a>
+                </div>
+              </div>
+              <div class="info-item" *ngIf="client.telephone">
+                <i class="bi bi-telephone"></i>
+                <div>
+                  <span class="info-label">Téléphone</span>
+                  <a [href]="'tel:' + client.telephone" class="info-value">{{ client.telephone }}</a>
+                </div>
+              </div>
+              <div class="info-item" *ngIf="client.adresse">
+                <i class="bi bi-geo-alt"></i>
+                <div>
+                  <span class="info-label">Adresse</span>
+                  <span class="info-value">{{ client.adresse }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-clock"></i>
+                <div>
+                  <span class="info-label">Client depuis</span>
+                  <span class="info-value">{{ client.createdAt | dateFormat:'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-notes" *ngIf="client.notes">
+              <h6 class="notes-title">
+                <i class="bi bi-sticky"></i>
+                Notes
+              </h6>
+              <p class="notes-content">{{ client.notes }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <app-client-stats [stats]="clientStats"></app-client-stats>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">
+              <i class="bi bi-folder text-primary"></i>
+              Projets du client
+              <span class="badge bg-primary ms-2">{{ clientProjects.length }}</span>
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="projects-list" *ngIf="clientProjects.length > 0">
+              <div
+                class="project-item"
+                *ngFor="let project of clientProjects"
+                (click)="viewProject(project._id)"
+              >
+                <div class="project-header">
+                  <h6 class="project-title">{{ project.titre }}</h6>
+                  <app-status-badge [status]="project.status"></app-status-badge>
+                </div>
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <i class="bi bi-calendar"></i>
+                    <span>{{ project.dateDebut | dateFormat }} - {{ project.dateFin | dateFormat }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="bi bi-currency-euro"></i>
+                    <span>{{ project.budget | number:'1.0-0' }}€</span>
+                  </div>
+                  <app-status-badge [status]="project.priorite" type="priority"></app-status-badge>
+                </div>
+                <div class="project-progress">
+                  <div class="progress-info">
+                    <span class="progress-label">Budget utilisé</span>
+                    <span class="progress-value">
+                      {{ project.montantUtilise | number:'1.0-0' }}€ / {{ project.budget | number:'1.0-0' }}€
+                    </span>
+                  </div>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-primary"
+                      [style.width.%]="(project.montantUtilise / project.budget * 100)"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="no-projects" *ngIf="clientProjects.length === 0">
+              <i class="bi bi-folder-x"></i>
+              <p>Aucun projet pour ce client</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer le client"
+    message="Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteClient()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

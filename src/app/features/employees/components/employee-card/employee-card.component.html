@@ -1,0 +1,52 @@
+<div class="employee-card card-hover">
+  <div class="employee-header">
+    <div class="employee-status">
+      <app-status-badge [status]="employee.status"></app-status-badge>
+    </div>
+    <div class="employee-actions">
+      <button class="btn-icon" (click)="onEdit()" title="Modifier">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button class="btn-icon text-danger" (click)="onDelete()" title="Supprimer">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="employee-body" (click)="onView()">
+    <div class="employee-avatar">
+      <i class="bi bi-person-circle"></i>
+    </div>
+
+    <h5 class="employee-name">{{ employee.nom }}</h5>
+    <p class="employee-role">
+      <i class="bi bi-briefcase"></i>
+      {{ employee.poste }}
+    </p>
+
+    <div class="employee-info">
+      <div class="info-item">
+        <i class="bi bi-envelope"></i>
+        <span>{{ employee.email }}</span>
+      </div>
+      <div class="info-item">
+        <i class="bi bi-shield"></i>
+        <span>{{ employee.role }}</span>
+      </div>
+      <div class="info-item">
+        <i class="bi bi-calendar"></i>
+        <span>Embauché le {{ employee.dateEmbauche | dateFormat }}</span>
+      </div>
+      <div class="info-item">
+        <i class="bi bi-folder"></i>
+        <span>{{ employee.projectsAssignes.length || 0 }} projet(s)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="employee-footer">
+    <span class="employee-badge badge" [class]="'badge-' + employee.role.toLowerCase()">
+      {{ employee.role }}
+    </span>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+@use '../../../../../assets/styles/variables';
+
+.employees-list-container {
+  .filters-section {
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      color: variables.$gray-700;
+      margin-bottom: 0.5rem;
+
+      i {
+        color: variables.$primary;
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+  }
+
+  .employees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: white;
+    border-radius: variables.$border-radius-lg;
+    box-shadow: variables.$box-shadow-sm;
+
+    i {
+      font-size: 5rem;
+      color: variables.$gray-400;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: variables.$gray-900;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: variables.$gray-600;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .pagination-container {
+    margin-top: 2rem;
+
+    .pagination {
+      .page-item {
+        &.active .page-link {
+          background-color: variables.$primary;
+          border-color: variables.$primary;
+        }
+
+        .page-link {
+          color: variables.$primary;
+          border-radius: variables.$border-radius;
+          margin: 0 0.25rem;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba(variables.$primary, 0.1);
+          }
+        }
+
+        &.disabled .page-link {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .employees-list-container {
+    .employees-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -1,0 +1,157 @@
+<div class="project-detail-container">
+  <app-page-header
+    [title]="project?.titre || 'Détails du projet'"
+    subtitle="Informations complètes du projet"
+    icon="bi-folder"
+    [showBackButton]="true"
+  >
+    <!-- Dropdown Statut -->
+    <div class="btn-group me-2" role="group">
+      <button
+        type="button"
+        class="btn btn-outline-info dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="bi bi-arrow-repeat"></i>
+        Statut: {{ project?.status }}
+      </button>
+      <ul class="dropdown-menu">
+        <li *ngFor="let status of availableStatuses">
+          <a
+            class="dropdown-item"
+            href="#"
+            (click)="updateProjectStatus(status, $event)"
+            [class.active]="status === project?.status"
+          >
+            <i class="bi bi-check-circle"></i>
+            {{ status }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <button class="btn btn-outline-primary me-2" (click)="editProject()">
+      <i class="bi bi-pencil"></i>
+      Modifier
+    </button>
+    <button class="btn btn-outline-danger" (click)="confirmDelete()">
+      <i class="bi bi-trash"></i>
+      Supprimer
+    </button>
+  </app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement du projet..."></app-loading-spinner>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="!isLoading && project" class="project-content fade-in">
+    <!-- Header Info -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="project-info-card card">
+          <div class="card-body">
+            <div class="info-header">
+              <div>
+                <h2 class="project-title">{{ project.titre }}</h2>
+                <p class="project-description" *ngIf="project.description">
+                  {{ project.description }}
+                </p>
+              </div>
+              <div class="info-badges">
+                <app-status-badge [status]="project.status"></app-status-badge>
+                <app-status-badge [status]="project.priorite" type="priority"></app-status-badge>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <i class="bi bi-building"></i>
+                <div>
+                  <span class="info-label">Client</span>
+                  <span class="info-value">{{ project.clientId.nomEntreprise }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-calendar"></i>
+                <div>
+                  <span class="info-label">Date de début</span>
+                  <span class="info-value">{{ project.dateDebut | dateFormat }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-calendar-check"></i>
+                <div>
+                  <span class="info-label">Date de fin</span>
+                  <span class="info-value">{{ project.dateFin | dateFormat }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-currency-euro"></i>
+                <div>
+                  <span class="info-label">Budget</span>
+                  <span class="info-value">{{ project.budget | number:'1.0-0' }}€</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-person"></i>
+                <div>
+                  <span class="info-label">Créé par</span>
+                  <span class="info-value">{{ project.createdBy?.nom || 'N/A' }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-clock"></i>
+                <div>
+                  <span class="info-label">Créé le</span>
+                  <span class="info-value">{{ project.createdAt | dateFormat:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-notes" *ngIf="project.notes">
+              <h6 class="notes-title">
+                <i class="bi bi-sticky"></i>
+                Notes
+              </h6>
+              <p class="notes-content">{{ project.notes }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <app-project-stats [stats]="projectStats"></app-project-stats>
+      </div>
+    </div>
+
+    <!-- Team Management -->
+    <div class="row">
+      <div class="col-12">
+        <app-team-management
+          [team]="project.team || []"
+          [availableEmployees]="employees"
+          (addMember)="addTeamMember($event)"
+          (removeMember)="removeTeamMember($event)"
+        ></app-team-management>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer le projet"
+    message="Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible et supprimera également toutes les tâches associées."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteProject()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

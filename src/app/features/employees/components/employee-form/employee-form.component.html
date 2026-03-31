@@ -1,0 +1,133 @@
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+  <div class="row g-3">
+    <!-- Utilisateur -->
+    <div class="col-12" *ngIf="!isEditMode">
+      <div class="form-group">
+        <label for="userId" class="form-label">
+          <i class="bi bi-person"></i>
+          Utilisateur *
+        </label>
+        <select
+          id="userId"
+          class="form-control"
+          formControlName="userId"
+          [class.is-invalid]="userId?.invalid && userId?.touched"
+        >
+          <option value="">Sélectionner un utilisateur</option>
+          <option *ngFor="let user of users" [value]="user._id">
+            {{ user.nom }} ({{ user.email }})
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="userId?.invalid && userId?.touched">
+          <span>L'utilisateur est obligatoire</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poste -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="poste" class="form-label">
+          <i class="bi bi-briefcase"></i>
+          Poste *
+        </label>
+        <input
+          type="text"
+          id="poste"
+          class="form-control"
+          formControlName="poste"
+          placeholder="Développeur Full Stack"
+          [class.is-invalid]="poste?.invalid && poste?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="poste?.invalid && poste?.touched">
+          <span *ngIf="poste?.errors?.['required']">Le poste est obligatoire</span>
+          <span *ngIf="poste?.errors?.['minlength']">Minimum 2 caractères</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rôle -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="role" class="form-label">
+          <i class="bi bi-shield"></i>
+          Rôle *
+        </label>
+        <select
+          id="role"
+          class="form-control"
+          formControlName="role"
+        >
+          <option *ngFor="let roleOption of roleOptions" [value]="roleOption">
+            {{ roleOption }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Salaire -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="salaire" class="form-label">
+          <i class="bi bi-currency-euro"></i>
+          Salaire annuel (€) *
+        </label>
+        <input
+          type="number"
+          id="salaire"
+          class="form-control"
+          formControlName="salaire"
+          placeholder="45000"
+          [class.is-invalid]="salaire?.invalid && salaire?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="salaire?.invalid && salaire?.touched">
+          <span *ngIf="salaire?.errors?.['required']">Le salaire est obligatoire</span>
+          <span *ngIf="salaire?.errors?.['min']">Le salaire doit être positif</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date Embauche -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="dateEmbauche" class="form-label">
+          <i class="bi bi-calendar"></i>
+          Date d'embauche *
+        </label>
+        <input
+          type="date"
+          id="dateEmbauche"
+          class="form-control"
+          formControlName="dateEmbauche"
+          [class.is-invalid]="dateEmbauche?.invalid && dateEmbauche?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="dateEmbauche?.invalid && dateEmbauche?.touched">
+          <span>La date d'embauche est obligatoire</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading">
+      <i class="bi bi-x-circle"></i>
+      Annuler
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="isLoading || employeeForm.invalid"
+      (click)="debugClick()"
+    >
+      <span *ngIf="!isLoading">
+        <i class="bi bi-check-circle"></i>
+        {{ isEditMode ? 'Mettre à jour' : 'Créer l\'employé' }}
+      </span>
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Enregistrement...
+      </span>
+    </button>
+  </div>
+</form>

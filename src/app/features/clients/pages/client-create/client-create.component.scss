@@ -1,0 +1,12 @@
+@use '../../../../../assets/styles/variables';
+
+.client-create-container {
+  .form-container {
+    max-width: 900px;
+    margin: 0 auto;
+
+    .card {
+      box-shadow: variables.$box-shadow-sm;
+    }
+  }
+}

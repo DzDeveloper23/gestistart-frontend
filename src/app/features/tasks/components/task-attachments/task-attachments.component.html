@@ -1,0 +1,107 @@
+<div class="task-attachments">
+  <div class="attachments-header">
+    <h6 class="attachments-title">
+      <i class="bi bi-paperclip"></i>
+      Pièces jointes
+      <span class="attachments-count">{{ attachments.length }}</span>
+    </h6>
+    <div class="header-buttons">
+      <button class="btn btn-sm btn-success" (click)="openFileSelector()" [disabled]="isUploadingFile" title="Ajouter un fichier depuis votre PC">
+        <i class="bi bi-folder-plus"></i>
+        Dossier
+      </button>
+      <button class="btn btn-sm btn-primary" (click)="toggleForm()">
+        <i class="bi" [ngClass]="showForm ? 'bi-x' : 'bi-plus'"></i>
+        {{ showForm ? 'Annuler' : 'Ajouter lien' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Input fichier caché -->
+  <input
+    #fileInput
+    type="file"
+    hidden
+    (change)="onFileSelected($event)"
+    accept="*/*"
+  >
+
+  <!-- Add Attachment Form -->
+  <form
+    *ngIf="showForm"
+    [formGroup]="attachmentForm"
+    (ngSubmit)="onSubmit()"
+    class="attachment-form"
+  >
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="nom" class="form-label">Nom du fichier *</label>
+          <input
+            type="text"
+            id="nom"
+            class="form-control"
+            formControlName="nom"
+            placeholder="Document.pdf"
+            [class.is-invalid]="nom?.invalid && nom?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="nom?.invalid && nom?.touched">
+            <span *ngIf="nom?.errors?.['required']">Le nom est obligatoire</span>
+            <span *ngIf="nom?.errors?.['minlength']">Minimum 3 caractères</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="url" class="form-label">URL du fichier *</label>
+          <input
+            type="text"
+            id="url"
+            class="form-control"
+            formControlName="url"
+            placeholder="https://example.com/file.pdf"
+            [class.is-invalid]="url?.invalid && url?.touched"
+          >
+          <div class="invalid-feedback" *ngIf="url?.invalid && url?.touched">
+            <span *ngIf="url?.errors?.['required']">L'URL est obligatoire</span>
+            <span *ngIf="url?.errors?.['pattern']">URL invalide (doit commencer par http:// ou https://)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm" [disabled]="attachmentForm.invalid">
+      <i class="bi bi-check"></i>
+      Ajouter
+    </button>
+  </form>
+
+  <!-- Attachments List -->
+  <div class="attachments-list" *ngIf="attachments.length > 0">
+    <div class="attachment-item" *ngFor="let attachment of attachments">
+      <div class="attachment-icon">
+        <i [ngClass]="getFileIcon(attachment.nom)"></i>
+      </div>
+      <div class="attachment-info">
+        <a [href]="attachment.url" target="_blank" class="attachment-name">
+          {{ attachment.nom }}
+        </a>
+        <span class="attachment-date">
+          Ajouté le {{ attachment.uploadedAt | dateFormat:'dd/MM/yyyy HH:mm' }}
+        </span>
+      </div>
+      <button
+        class="btn-remove"
+        (click)="onRemoveAttachment(attachment._id)"
+        title="Supprimer"
+      >
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- No Attachments -->
+  <div class="no-attachments" *ngIf="attachments.length === 0 && !showForm">
+    <i class="bi bi-paperclip"></i>
+    <p>Aucune pièce jointe</p>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@use '../../../../../../assets/styles/variables';
+
+.card {
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: variables.$gray-900;
+    margin-bottom: 1.5rem;
+
+    i {
+      font-size: 1.25rem;
+    }
+  }
+
+  .chart-container {
+    margin-top: 1rem;
+  }
+
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: variables.$gray-500;
+
+    i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+    }
+  }
+}

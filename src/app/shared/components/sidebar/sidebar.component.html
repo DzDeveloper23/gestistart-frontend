@@ -1,0 +1,109 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <!-- Glow effect background -->
+  <div class="sidebar-glow"></div>
+
+  <!-- Logo Section -->
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-container" [class.collapsed]="isCollapsed">
+        <img
+          *ngIf="!isCollapsed"
+          src="logo-full.png"
+          alt="Logo"
+          class="logo-img logo-full"
+        >
+        <img
+          *ngIf="isCollapsed"
+          src="logo-icon.png"
+          alt="Logo"
+          class="logo-img logo-icon"
+        >
+      </div>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-right' : 'bi-chevron-left'"></i>
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <!-- <div class="sidebar-search" *ngIf="!isCollapsed">
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Rechercher..."
+        [(ngModel)]="searchQuery"
+      >
+    </div>
+  </div> -->
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <ng-container *ngFor="let item of filteredMenuItems; let i = index">
+        <li
+          *ngIf="canShowMenuItem(item)"
+          class="nav-item"
+          [class.active]="isActive(item.route)"
+          [style.animation-delay]="(i * 50) + 'ms'"
+        >
+          <a [routerLink]="item.route" class="nav-link" (click)="onMobileMenuClick()">
+            <!-- Active indicator -->
+            <div class="active-indicator" *ngIf="isActive(item.route)"></div>
+
+            <!-- Hover glow effect -->
+            <div class="hover-glow"></div>
+
+            <!-- Icon container with gradient -->
+            <div class="icon-container" [class.active]="isActive(item.route)">
+              <i class="nav-icon" [ngClass]="item.icon"></i>
+            </div>
+
+            <span class="nav-text" *ngIf="!isCollapsed">{{ item.label }}</span>
+
+            <!-- Badge with gradient -->
+            <span class="nav-badge" *ngIf="item.badge && item.badge > 0 && !isCollapsed">
+              {{ item.badge }}
+            </span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+
+  <!-- Upgrade Section (optionnel) -->
+  <!-- <div class="sidebar-upgrade" *ngIf="!isCollapsed">
+    <div class="upgrade-container">
+      <div class="upgrade-header">
+        <i class="bi bi-star upgrade-icon"></i>
+        <span class="upgrade-title">Version Pro</span>
+      </div>
+      <p class="upgrade-text">
+        Débloquez toutes les fonctionnalités premium
+      </p>
+      <button class="upgrade-btn">
+        Mettre à niveau
+      </button>
+    </div>
+  </div> -->
+
+  <!-- Footer -->
+  <div class="sidebar-footer">
+    <div class="footer-content" *ngIf="!isCollapsed">
+      <div class="footer-info">
+        <i class="bi bi-info-circle"></i>
+        <span>v1.0.0 - GestiStart</span>
+      </div>
+    </div>
+    <div class="footer-icon" *ngIf="isCollapsed">
+      <i class="bi bi-info-circle"></i>
+    </div>
+  </div>
+</aside>
+
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay"
+     *ngIf="!isCollapsed"
+     (click)="toggleSidebar()"
+     [@fadeInOut]></div>

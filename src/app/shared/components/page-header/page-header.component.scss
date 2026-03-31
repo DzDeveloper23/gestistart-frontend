@@ -1,0 +1,198 @@
+@use '../../../../assets/styles/variables';
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid variables.$gray-200;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .back-btn {
+    padding: 0.5rem;
+    color: variables.$gray-600;
+    text-decoration: none;
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    &:hover {
+      color: variables.$primary;
+    }
+  }
+
+  .header-content {
+    flex: 1;
+  }
+
+  .header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+    color: variables.$primary;
+  }
+
+  .header-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: variables.$secondary;
+    margin: 0;
+  }
+
+  .header-subtitle {
+    color: variables.$gray-600;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    // ✅ Styles pour les boutons
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      border: none;
+      outline: none;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+
+    // ✅ Bouton primary (bleu)
+    .btn-primary {
+      background: variables.$primary;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+
+      &:hover {
+        background: darken(variables.$primary, 10%);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+    }
+
+    // ✅ Bouton outline-primary (bordure bleue)
+    .btn-outline-primary {
+      border: 2px solid variables.$primary;
+      color: variables.$primary;
+      background: transparent;
+
+      &:hover {
+        background: rgba(variables.$primary, 0.1);
+      }
+    }
+
+    // ✅ Bouton outline-danger (bordure rouge)
+    .btn-outline-danger {
+      border: 2px solid #dc3545;
+      color: #dc3545;
+      background: transparent;
+
+      &:hover {
+        background: rgba(220, 53, 69, 0.1);
+      }
+    }
+
+    // ✅ Bouton outline-info (bordure info)
+    .btn-outline-info {
+      border: 2px solid #0dcaf0;
+      color: #0dcaf0;
+      background: transparent;
+      padding: 0.5rem 1.2rem;
+
+      &:hover {
+        background: rgba(13, 202, 240, 0.1);
+        border-color: #0dcaf0;
+      }
+
+      &.dropdown-toggle::after {
+        margin-left: 0.5rem;
+      }
+    }
+
+    // ✅ Dropdown menu
+    .dropdown-menu {
+      min-width: 180px;
+      padding: 0.5rem 0;
+      border: 1px solid variables.$gray-300;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: #fff;
+
+      .dropdown-item {
+        padding: 0.75rem 1rem;
+        color: variables.$gray-700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        font-size: 0.9rem;
+
+        i {
+          font-size: 1rem;
+          color: variables.$primary;
+        }
+
+        &:hover {
+          background: rgba(variables.$primary, 0.1);
+          color: variables.$primary;
+        }
+
+        &.active {
+          background: rgba(variables.$primary, 0.15);
+          color: variables.$primary;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// ✅ Responsive
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .header-right {
+      width: 100%;
+      flex-wrap: wrap;
+
+      .btn {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+      }
+    }
+  }
+}

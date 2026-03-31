@@ -1,0 +1,139 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+  <div class="row g-3">
+    <!-- Titre -->
+    <div class="col-12">
+      <div class="form-group">
+        <label for="titre" class="form-label">
+          <i class="bi bi-card-text"></i>
+          Titre de la tâche *
+        </label>
+        <input
+          type="text"
+          id="titre"
+          class="form-control"
+          formControlName="titre"
+          placeholder="Titre de la tâche"
+          [class.is-invalid]="titre?.invalid && titre?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="titre?.invalid && titre?.touched">
+          <span *ngIf="titre?.errors?.['required']">Le titre est obligatoire</span>
+          <span *ngIf="titre?.errors?.['minlength']">Minimum 5 caractères</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="col-12">
+      <div class="form-group">
+        <label for="description" class="form-label">
+          <i class="bi bi-text-paragraph"></i>
+          Description
+        </label>
+        <textarea
+          id="description"
+          class="form-control"
+          formControlName="description"
+          rows="3"
+          placeholder="Description de la tâche..."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Projet -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="projectId" class="form-label">
+          <i class="bi bi-folder"></i>
+          Projet *
+        </label>
+        <select
+          id="projectId"
+          class="form-control"
+          formControlName="projectId"
+          [class.is-invalid]="projectId?.invalid && projectId?.touched"
+        >
+          <option value="">Sélectionner un projet</option>
+          <option *ngFor="let project of projects" [value]="project._id">
+            {{ project.titre }}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="projectId?.invalid && projectId?.touched">
+          <span>Le projet est obligatoire</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Assigné à -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="assigneId" class="form-label">
+          <i class="bi bi-person"></i>
+          Assigné à
+        </label>
+        <select
+          id="assigneId"
+          class="form-control"
+          formControlName="assigneId"
+        >
+          <option value="">Non assigné</option>
+          <option *ngFor="let employee of employees" [value]="employee._id">
+            {{ employee.nom }} - {{ employee.poste }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Priorité -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="priorite" class="form-label">
+          <i class="bi bi-flag"></i>
+          Priorité *
+        </label>
+        <select
+          id="priorite"
+          class="form-control"
+          formControlName="priorite"
+        >
+          <option *ngFor="let priority of priorityOptions" [value]="priority">
+            {{ priority }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Date d'échéance -->
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="dateEcheance" class="form-label">
+          <i class="bi bi-calendar"></i>
+          Date d'échéance
+        </label>
+        <input
+          type="date"
+          id="dateEcheance"
+          class="form-control"
+          formControlName="dateEcheance"
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading">
+      <i class="bi bi-x-circle"></i>
+      Annuler
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading || taskForm.invalid">
+      <span *ngIf="!isLoading">
+        <i class="bi bi-check-circle"></i>
+        {{ isEditMode ? 'Mettre à jour' : 'Créer la tâche' }}
+      </span>
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Enregistrement...
+      </span>
+    </button>
+  </div>
+</form>

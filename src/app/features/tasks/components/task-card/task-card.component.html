@@ -1,0 +1,50 @@
+<div class="task-card" [class.overdue]="isOverdue()">
+  <div class="task-header">
+    <app-status-badge [status]="task.priorite" type="priority"></app-status-badge>
+    <div class="task-actions">
+      <button class="btn-icon" (click)="onEdit()" title="Modifier">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button class="btn-icon text-danger" (click)="onDelete()" title="Supprimer">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="task-body" (click)="onView()">
+    <h6 class="task-title">{{ task.titre }}</h6>
+    <p class="task-description" *ngIf="task.description">
+      {{ task.description }}
+    </p>
+
+    <div class="task-meta">
+      <div class="meta-item" *ngIf="task.projectId">
+        <i class="bi bi-folder"></i>
+        <span>{{ task.projectId.titre }}</span>
+      </div>
+      <div class="meta-item" *ngIf="task.assigneId">
+        <i class="bi bi-person"></i>
+        <span>{{ task.assigneId.nom }}</span>
+      </div>
+      <div class="meta-item" *ngIf="task.dateEcheance">
+        <i class="bi bi-calendar" [class.text-danger]="isOverdue()"></i>
+        <span [class.text-danger]="isOverdue()">{{ task.dateEcheance | dateFormat }}</span>
+      </div>
+    </div>
+
+    <div class="task-extras">
+      <span class="extra-item" *ngIf="task.commentaires.length > 0">
+        <i class="bi bi-chat"></i>
+        {{ task.commentaires.length }}
+      </span>
+      <span class="extra-item" *ngIf="task.piecesJointes.length > 0">
+        <i class="bi bi-paperclip"></i>
+        {{ task.piecesJointes.length }}
+      </span>
+    </div>
+  </div>
+
+  <div class="task-footer">
+    <app-status-badge [status]="task.status"></app-status-badge>
+  </div>
+</div>

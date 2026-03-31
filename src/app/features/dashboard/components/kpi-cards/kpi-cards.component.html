@@ -1,0 +1,17 @@
+<div class="kpi-cards">
+  <div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6" *ngFor="let kpi of kpiConfig">
+      <div class="kpi-card" [attr.data-color]="kpi.color">
+        <div class="kpi-icon">
+          <i [ngClass]="kpi.icon"></i>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{ kpi.getValue(kpis) }}</div>
+          <div class="kpi-label">{{ kpi.label }}</div>
+          <div class="kpi-sub">{{ kpi.subValue(kpis) }}</div>
+        </div>
+        <div class="kpi-decoration"></div>
+      </div>
+    </div>
+  </div>
+</div>

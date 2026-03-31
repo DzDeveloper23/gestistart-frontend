@@ -1,0 +1,135 @@
+@use '../../../assets/styles/variables';
+
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: variables.$gradient-dark;
+  padding: 2rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.auth-left {
+  color: white;
+  animation: slideInLeft 0.6s ease;
+
+  .auth-brand {
+    margin-bottom: 3rem;
+
+    .brand-logo {
+      width: 300px;
+      height: 100px;
+      margin-bottom: 2.0rem;
+    }
+
+    .brand-name {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, white 0%, variables.$primary 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-tagline {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+  }
+
+  .auth-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.125rem;
+      opacity: 0.95;
+
+      i {
+        font-size: 1.5rem;
+        color: variables.$primary;
+      }
+    }
+  }
+}
+
+.auth-right {
+  animation: slideInRight 0.6s ease;
+
+  .auth-card {
+    background: white;
+    border-radius: variables.$border-radius-xl;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .auth-left {
+    text-align: center;
+
+    .auth-brand .brand-logo {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .auth-features {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  .auth-right .auth-card {
+    padding: 2rem;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

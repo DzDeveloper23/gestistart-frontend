@@ -1,0 +1,140 @@
+<div class="employees-list-container">
+  <app-page-header
+    title="Employés"
+    subtitle="Gérer votre équipe"
+    icon="bi-people"
+  >
+    <button class="btn btn-primary" (click)="createEmployee()">
+      <i class="bi bi-plus-circle"></i>
+      Nouvel employé
+    </button>
+  </app-page-header>
+
+  <!-- Filters -->
+  <div class="filters-section card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="searchQuery" class="form-label">
+            <i class="bi bi-search"></i>
+            Rechercher
+          </label>
+          <input
+            type="text"
+            id="searchQuery"
+            class="form-control"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="onSearch()"
+            placeholder="Nom, email, poste..."
+          >
+        </div>
+        <div class="col-md-3">
+          <label for="statusFilter" class="form-label">
+            <i class="bi bi-funnel"></i>
+            Statut
+          </label>
+          <select
+            id="statusFilter"
+            class="form-control"
+            [(ngModel)]="selectedStatus"
+            (change)="onFilterChange()"
+          >
+            <option value="">Tous les statuts</option>
+            <option value="Actif">Actif</option>
+            <option value="Inactif">Inactif</option>
+            <option value="Congé">Congé</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="roleFilter" class="form-label">
+            <i class="bi bi-shield"></i>
+            Rôle
+          </label>
+          <select
+            id="roleFilter"
+            class="form-control"
+            [(ngModel)]="selectedRole"
+            (change)="onFilterChange()"
+          >
+            <option value="">Tous les rôles</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Employé">Employé</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end gap-2">
+          <button class="btn btn-primary flex-fill" (click)="onSearch()">
+            <i class="bi bi-search"></i>
+          </button>
+          <button class="btn btn-outline-secondary flex-fill" (click)="clearFilters()">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement des employés..."></app-loading-spinner>
+  </div>
+
+  <!-- Employees Grid -->
+  <div *ngIf="!isLoading && employees.length > 0" class="employees-grid fade-in">
+    <app-employee-card
+      *ngFor="let employee of employees"
+      [employee]="employee"
+      (view)="viewEmployee($event)"
+      (edit)="editEmployee($event)"
+      (delete)="confirmDelete($event)"
+    ></app-employee-card>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && employees.length === 0" class="empty-state">
+    <i class="bi bi-people"></i>
+    <h3>Aucun employé trouvé</h3>
+    <p>Commencez par ajouter votre premier employé</p>
+    <button class="btn btn-primary" (click)="createEmployee()">
+      <i class="bi bi-plus-circle"></i>
+      Ajouter un employé
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && employees.length > 0 && totalPages > 1" class="pagination-container">
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="onPageChange(currentPage - 1)">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          [class.active]="currentPage === i + 1"
+        >
+          <a class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="onPageChange(currentPage + 1)">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer l'employé"
+    message="Êtes-vous sûr de vouloir supprimer cet employé ? Cette action est irréversible."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteEmployee()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

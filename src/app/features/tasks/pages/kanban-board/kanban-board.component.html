@@ -1,0 +1,88 @@
+<div class="kanban-board-container">
+  <app-page-header
+    title="Tableau Kanban"
+    subtitle="Vue d'ensemble des tâches"
+    icon="bi-kanban"
+  >
+    <button class="btn btn-outline-primary me-2" (click)="goToListView()">
+      <i class="bi bi-list-ul"></i>
+      Vue Liste
+    </button>
+    <button class="btn btn-primary" (click)="createTask()">
+      <i class="bi bi-plus-circle"></i>
+      Nouvelle tâche
+    </button>
+  </app-page-header>
+
+  <!-- Project Selector -->
+  <div class="project-selector card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="projectSelect" class="form-label">
+            <i class="bi bi-folder"></i>
+            Sélectionner un projet
+          </label>
+          <select
+            id="projectSelect"
+            class="form-control"
+            [(ngModel)]="selectedProject"
+            (change)="onProjectChange()"
+          >
+            <option value="">-- Choisir un projet --</option>
+            <option *ngFor="let project of projects" [value]="project._id">
+              {{ project.titre }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement du tableau Kanban..."></app-loading-spinner>
+  </div>
+
+  <!-- No Project Selected -->
+  <div *ngIf="!isLoading && !selectedProject" class="no-project">
+    <i class="bi bi-folder"></i>
+    <h3>Aucun projet sélectionné</h3>
+    <p>Veuillez sélectionner un projet pour voir le tableau Kanban</p>
+  </div>
+
+  <!-- Kanban Board -->
+  <div *ngIf="!isLoading && selectedProject" class="kanban-board fade-in">
+    <app-kanban-column
+      title="À faire"
+      status="À faire"
+      [tasks]="kanbanData['À faire']"
+      (statusChange)="onStatusChange($event)"
+      (viewTask)="onViewTask($event)"
+    ></app-kanban-column>
+
+    <app-kanban-column
+      title="En cours"
+      status="En cours"
+      [tasks]="kanbanData['En cours']"
+      (statusChange)="onStatusChange($event)"
+      (viewTask)="onViewTask($event)"
+    ></app-kanban-column>
+
+    <app-kanban-column
+      title="En révision"
+      status="En révision"
+      [tasks]="kanbanData['En révision']"
+      (statusChange)="onStatusChange($event)"
+      (viewTask)="onViewTask($event)"
+    ></app-kanban-column>
+
+    <app-kanban-column
+      title="Terminée"
+      status="Terminée"
+      [tasks]="kanbanData['Terminée']"
+      (statusChange)="onStatusChange($event)"
+      (viewTask)="onViewTask($event)"
+    ></app-kanban-column>
+  </div>
+</div>

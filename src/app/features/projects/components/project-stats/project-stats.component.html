@@ -1,0 +1,96 @@
+<div class="project-stats" *ngIf="stats">
+  <div class="row g-4">
+    <!-- Budget Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-currency-euro stat-icon text-primary"></i>
+          <h5 class="stat-title">Budget</h5>
+        </div>
+        <div class="stat-body">
+          <div class="stat-values">
+            <div class="stat-value">
+              <span class="value-label">Total</span>
+              <span class="value-number">{{ stats.budgetTotal | number:'1.0-0' }}€</span>
+            </div>
+            <div class="stat-value">
+              <span class="value-label">Utilisé</span>
+              <span class="value-number" [class]="'text-' + getBudgetColorClass()">
+                {{ stats.budgetUtilise | number:'1.0-0' }}€
+              </span>
+            </div>
+            <div class="stat-value">
+              <span class="value-label">Restant</span>
+              <span class="value-number">{{ stats.budgetRestant | number:'1.0-0' }}€</span>
+            </div>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [class]="'bg-' + getBudgetColorClass()"
+                [style.width.%]="stats.budgetPercent"
+              ></div>
+            </div>
+            <span class="progress-percent" [class]="'text-' + getBudgetColorClass()">
+              {{ stats.budgetPercent }}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Stats -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <div class="stat-header">
+          <i class="bi bi-calendar-event stat-icon text-info"></i>
+          <h5 class="stat-title">Délais</h5>
+        </div>
+        <div class="stat-body">
+          <div class="timeline-info">
+            <div class="timeline-item">
+              <i class="bi bi-clock"></i>
+              <div>
+                <span class="timeline-label">Jours restants</span>
+                <span class="timeline-value" [class]="'text-' + getDelayColorClass()">
+                  {{ stats.joursRestants }} jour(s)
+                </span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <i class="bi bi-exclamation-triangle" *ngIf="stats.isEnRetard"></i>
+              <i class="bi bi-check-circle" *ngIf="!stats.isEnRetard"></i>
+              <div>
+                <span class="timeline-label">Statut</span>
+                <span class="timeline-value" [class]="stats.isEnRetard ? 'text-danger' : 'text-success'">
+                  {{ stats.isEnRetard ? 'En retard' : 'Dans les temps' }}
+                </span>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <i class="bi bi-people"></i>
+              <div>
+                <span class="timeline-label">Membres d'équipe</span>
+                <span class="timeline-value">{{ stats.nombreMembers }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-12">
+      <div class="stat-card stat-status">
+        <div class="status-content">
+          <div class="status-info">
+            <i class="bi bi-info-circle"></i>
+            <span>Statut actuel du projet</span>
+          </div>
+          <app-status-badge [status]="stats.status"></app-status-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

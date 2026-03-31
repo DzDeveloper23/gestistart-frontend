@@ -1,0 +1,134 @@
+<div class="task-detail-container">
+  <app-page-header
+    [title]="task?.titre || 'Détails de la tâche'"
+    subtitle="Informations complètes de la tâche"
+    icon="bi-check-square"
+    [showBackButton]="true"
+  >
+    <button class="btn btn-outline-danger" (click)="confirmDelete()">
+      <i class="bi bi-trash"></i>
+      Supprimer
+    </button>
+  </app-page-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <app-loading-spinner message="Chargement de la tâche..."></app-loading-spinner>
+  </div>
+
+  <!-- Task Details -->
+  <div *ngIf="!isLoading && task" class="task-content fade-in">
+    <!-- Header Info -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="task-info-card card">
+          <div class="card-body">
+            <div class="info-header">
+              <div>
+                <h2 class="task-title">{{ task.titre }}</h2>
+                <p class="task-description" *ngIf="task.description">
+                  {{ task.description }}
+                </p>
+              </div>
+              <div class="info-badges">
+                <app-status-badge [status]="task.status"></app-status-badge>
+                <app-status-badge [status]="task.priorite" type="priority"></app-status-badge>
+                <span *ngIf="isOverdue()" class="badge bg-danger">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  En retard
+                </span>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <i class="bi bi-folder"></i>
+                <div>
+                  <span class="info-label">Projet</span>
+                  <a [routerLink]="['/projects', task.projectId._id]" class="info-value">
+                    {{ task.projectId.titre }}
+                  </a>
+                </div>
+              </div>
+              <div class="info-item" *ngIf="task.assigneId">
+                <i class="bi bi-person"></i>
+                <div>
+                  <span class="info-label">Assigné à</span>
+                  <span class="info-value">{{ task.assigneId.nom }}</span>
+                </div>
+              </div>
+              <div class="info-item" *ngIf="!task.assigneId">
+                <i class="bi bi-person"></i>
+                <div>
+                  <span class="info-label">Assigné à</span>
+                  <span class="info-value text-muted">Non assigné</span>
+                </div>
+              </div>
+              <div class="info-item" *ngIf="task.dateEcheance">
+                <i class="bi bi-calendar" [class.text-danger]="isOverdue()"></i>
+                <div>
+                  <span class="info-label">Date d'échéance</span>
+                  <span class="info-value" [class.text-danger]="isOverdue()">
+                    {{ task.dateEcheance | dateFormat }}
+                  </span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-person"></i>
+                <div>
+                  <span class="info-label">Créé par</span>
+                  <span class="info-value">{{ task.createdBy?.nom || 'N/A' }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-clock"></i>
+                <div>
+                  <span class="info-label">Créé le</span>
+                  <span class="info-value">{{ task.createdAt | dateFormat:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attachments & Comments -->
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <app-task-attachments
+              [attachments]="task.piecesJointes || []"
+              (addAttachment)="onAddAttachment($event)"
+              (removeAttachment)="onRemoveAttachment($event)"
+            ></app-task-attachments>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <app-task-comments
+              [comments]="task.commentaires || []"
+              (addComment)="onAddComment($event)"
+              (deleteComment)="onDeleteComment($event)"
+            ></app-task-comments>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-confirmation-modal
+    [show]="showDeleteModal"
+    title="Supprimer la tâche"
+    message="Êtes-vous sûr de vouloir supprimer cette tâche ? Cette action est irréversible."
+    confirmText="Supprimer"
+    cancelText="Annuler"
+    type="danger"
+    (confirm)="deleteTask()"
+    (cancel)="cancelDelete()"
+  ></app-confirmation-modal>
+</div>

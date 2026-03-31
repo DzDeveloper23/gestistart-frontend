@@ -1,0 +1,34 @@
+@use 'variables' as *;  // ✅ Import des variables
+@use 'mixins' as *;     // ✅ Import des mixins (AJOUTÉ)
+
+// Text utilities
+.text-gradient-primary {
+  @include gradient-text($gradient-primary);
+}
+
+.text-gradient-dark {
+  @include gradient-text($gradient-dark);
+}
+
+// Background utilities
+.bg-gradient-primary {
+  background: $gradient-primary;
+}
+
+.bg-gradient-dark {
+  background: $gradient-dark;
+}
+
+// Card utilities
+.card-hover {
+  @include card-hover;
+}
+
+// Flex utilities
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}

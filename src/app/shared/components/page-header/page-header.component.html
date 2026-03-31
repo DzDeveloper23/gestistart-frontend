@@ -1,0 +1,21 @@
+<div class="page-header">
+  <div class="header-left">
+    <button
+      *ngIf="showBackButton"
+      class="btn btn-link back-btn"
+      (click)="goBack()"
+    >
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <div class="header-content">
+      <div class="header-title-row">
+        <i *ngIf="icon" class="header-icon" [ngClass]="icon"></i>
+        <h1 class="header-title">{{ title }}</h1>
+      </div>
+      <p *ngIf="subtitle" class="header-subtitle">{{ subtitle }}</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <ng-content></ng-content>
+  </div>
+</div>

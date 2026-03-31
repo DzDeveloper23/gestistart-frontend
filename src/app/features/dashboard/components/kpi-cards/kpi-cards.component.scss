@@ -1,0 +1,140 @@
+@use "sass:color";
+@use '../../../../../assets/styles/variables';
+
+.kpi-cards {
+  .row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  [class*="col-"] {
+    display: flex;
+  }
+
+  .kpi-card {
+    background: white;
+    border-radius: variables.$border-radius-lg;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: variables.$box-shadow-sm;
+    transition: variables.$transition-base;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: variables.$box-shadow;
+    }
+
+    .kpi-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .kpi-content {
+      flex: 1;
+      z-index: 1;
+
+      .kpi-value {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+      }
+
+      .kpi-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: variables.$gray-700;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .kpi-sub {
+        font-size: 0.8125rem;
+        color: variables.$gray-600;
+      }
+    }
+
+    .kpi-decoration {
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      opacity: 0.1;
+    }
+
+    &[data-color="primary"] {
+      .kpi-icon {
+        background: rgba(variables.$primary, 0.1);
+        color: variables.$primary;
+      }
+
+      .kpi-value {
+        color: variables.$primary;
+      }
+
+      .kpi-decoration {
+        background: variables.$primary;
+      }
+    }
+
+    &[data-color="success"] {
+      .kpi-icon {
+        background: rgba(variables.$success, 0.1);
+        color: variables.$success;
+      }
+
+      .kpi-value {
+        color: variables.$success;
+      }
+
+      .kpi-decoration {
+        background: variables.$success;
+      }
+    }
+
+    &[data-color="info"] {
+      .kpi-icon {
+        background: rgba(variables.$info, 0.1);
+        color: variables.$info;
+      }
+
+      .kpi-value {
+        color: variables.$info;
+      }
+
+      .kpi-decoration {
+        background: variables.$info;
+      }
+    }
+
+    &[data-color="warning"] {
+      .kpi-icon {
+        background: rgba(variables.$warning, 0.1);
+        color: color.adjust(variables.$warning, $lightness: -10%);
+      }
+
+      .kpi-value {
+        color: color.adjust(variables.$warning, $lightness: -10%);
+      }
+
+      .kpi-decoration {
+        background: variables.$warning;
+      }
+    }
+  }
+}

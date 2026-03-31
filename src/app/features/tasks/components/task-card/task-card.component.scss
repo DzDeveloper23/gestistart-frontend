@@ -1,0 +1,141 @@
+@use '../../../../../assets/styles/variables';
+
+.task-card {
+  background: white;
+  border-radius: variables.$border-radius-lg;
+  padding: 1rem;
+  border: 1px solid variables.$gray-200;
+  box-shadow: variables.$box-shadow-sm;
+  transition: variables.$transition-base;
+
+  &:hover {
+    box-shadow: variables.$box-shadow;
+    transform: translateY(-2px);
+  }
+
+  &.overdue {
+    border-left: 4px solid variables.$danger;
+  }
+
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    .task-actions {
+      display: flex;
+      gap: 0.25rem;
+
+      .btn-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: variables.$gray-500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: variables.$transition-fast;
+
+        &:hover {
+          background: variables.$gray-100;
+          color: variables.$gray-900;
+        }
+
+        &.text-danger:hover {
+          background: rgba(variables.$danger, 0.1);
+          color: variables.$danger;
+        }
+      }
+    }
+  }
+
+  .task-body {
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+
+    .task-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: variables.$gray-900;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+
+      &:hover {
+        color: variables.$primary;
+      }
+    }
+
+    .task-description {
+      font-size: 0.8125rem;
+      color: variables.$gray-600;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .task-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.8125rem;
+        color: variables.$gray-600;
+
+        i {
+          font-size: 0.875rem;
+          color: variables.$primary;
+
+          &.text-danger {
+            color: variables.$danger;
+          }
+        }
+
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &.text-danger {
+            color: variables.$danger;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .task-extras {
+      display: flex;
+      gap: 0.75rem;
+
+      .extra-item {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.8125rem;
+        color: variables.$gray-500;
+
+        i {
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+
+  .task-footer {
+    padding-top: 0.75rem;
+    border-top: 1px solid variables.$gray-200;
+  }
+}

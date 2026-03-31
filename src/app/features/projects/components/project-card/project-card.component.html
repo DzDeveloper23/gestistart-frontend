@@ -1,0 +1,59 @@
+<div class="project-card card-hover">
+  <div class="project-header">
+    <div class="project-priority">
+      <app-status-badge [status]="project.priorite" type="priority"></app-status-badge>
+    </div>
+    <div class="project-actions">
+      <button class="btn-icon" (click)="onEdit()" title="Modifier">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button class="btn-icon text-danger" (click)="onDelete()" title="Supprimer">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="project-body" (click)="onView()">
+    <h5 class="project-title">{{ project.titre }}</h5>
+    <p class="project-client">
+      <i class="bi bi-building"></i>
+      {{ project.clientId.nomEntreprise }}
+    </p>
+
+    <div class="project-meta">
+      <div class="meta-item">
+        <i class="bi bi-calendar"></i>
+        <span>{{ project.dateDebut | dateFormat }} - {{ project.dateFin | dateFormat }}</span>
+      </div>
+      <div class="meta-item">
+        <i class="bi bi-people"></i>
+        <span>{{ project.team.length || 0 }} membre(s)</span>
+      </div>
+    </div>
+
+    <div class="project-budget">
+      <div class="budget-info">
+        <span class="budget-label">Budget utilisé</span>
+        <span class="budget-value">
+          {{ project.montantUtilise | number:'1.0-0' }}€ / {{ project.budget | number:'1.0-0' }}€
+        </span>
+      </div>
+      <div class="progress">
+        <div
+          class="progress-bar"
+          [class]="'bg-' + getBudgetColor()"
+          [style.width.%]="getBudgetPercent()"
+        ></div>
+      </div>
+      <div class="budget-percent">{{ getBudgetPercent() | number:'1.0-0' }}%</div>
+    </div>
+  </div>
+
+  <div class="project-footer">
+    <app-status-badge [status]="project.status"></app-status-badge>
+    <span class="project-date">
+      <i class="bi bi-clock"></i>
+      {{ project.createdAt | dateFormat }}
+    </span>
+  </div>
+</div>

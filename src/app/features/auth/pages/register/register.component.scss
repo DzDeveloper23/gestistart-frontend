@@ -1,0 +1,243 @@
+@use '../../../../../assets/styles/variables';
+
+.auth-form {
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+
+  h1 {
+    font-weight: 700;
+    margin: 0 0 20px;
+    font-size: 28px;
+    color: variables.$secondary;
+  }
+
+  span {
+    font-size: 13px;
+    color: #666;
+    margin: 15px 0;
+  }
+
+  .social-links {
+    margin: 20px 0;
+    display: flex;
+    gap: 15px;
+
+    a {
+      border: 2px solid #e0e0e0;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      transition: all 0.3s ease;
+      color: variables.$primary;
+      text-decoration: none;
+
+      &:hover {
+        border-color: variables.$primary;
+        background: variables.$primary;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      i {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  form {
+    width: 100%;
+    max-width: 350px;
+
+    input, select {
+      background-color: #f3f4f6;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 8px 0;
+      width: 100%;
+      font-size: 14px;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: variables.$primary;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      &.error {
+        border-color: variables.$danger;
+      }
+
+      &::placeholder {
+        color: #999;
+      }
+    }
+
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+
+      input {
+        padding-right: 45px;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        color: #999;
+        cursor: pointer;
+        padding: 8px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: variables.$primary;
+        }
+
+        i {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .role-select {
+      cursor: pointer;
+    }
+
+    .error-message {
+      color: variables.$danger;
+      font-size: 12px;
+      text-align: left;
+      margin: -5px 0 8px 5px;
+    }
+
+    .terms-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: #666;
+      text-align: left;
+
+      input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+        cursor: pointer;
+        min-width: 18px;
+        height: 18px;
+
+        &.error {
+          outline: 2px solid variables.$danger;
+        }
+      }
+
+      label {
+        cursor: pointer;
+        margin: 0;
+      }
+    }
+
+    .submit-btn {
+      border-radius: 25px;
+      border: none;
+      background: linear-gradient(135deg, variables.$primary 0%, #764ba2 100%);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 14px 50px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      margin-top: 15px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .spinner-border {
+        width: 1rem;
+        height: 1rem;
+        border-width: 2px;
+      }
+    }
+
+    .mobile-switch {
+      display: none;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .auth-form {
+    padding: 30px 25px;
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    form {
+      .mobile-switch {
+        display: block;
+        margin-top: 20px;
+        color: variables.$primary;
+        font-size: 14px;
+
+        p {
+          margin: 10px 0;
+          font-size: 14px;
+          color: #666;
+        }
+
+        button {
+          background: transparent;
+          color: variables.$primary;
+          border: 2px solid variables.$primary;
+          padding: 10px 30px;
+          margin-top: 10px;
+          box-shadow: none;
+          text-transform: none;
+          letter-spacing: normal;
+
+          &:hover {
+            background: variables.$primary;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,148 @@
+@use '../../../../../assets/styles/variables';
+
+.card {
+  .card-header {
+    background: white;
+    border-bottom: 1px solid variables.$gray-200;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: variables.$gray-900;
+      margin: 0;
+
+      i {
+        font-size: 1.25rem;
+      }
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .task-item {
+      padding: 1rem;
+      border-radius: variables.$border-radius;
+      border: 1px solid variables.$gray-200;
+      background: white;
+      display: flex;
+      gap: 1rem;
+      transition: variables.$transition-fast;
+      cursor: pointer;
+
+      &:hover {
+        border-color: variables.$primary;
+        box-shadow: variables.$box-shadow-sm;
+        transform: translateX(4px);
+      }
+
+      &.overdue {
+        border-left: 3px solid variables.$danger;
+        background: rgba(variables.$danger, 0.02);
+      }
+
+      .task-checkbox {
+        display: flex;
+        align-items: flex-start;
+        padding-top: 0.125rem;
+
+        i {
+          font-size: 1.25rem;
+          color: variables.$gray-400;
+
+          &.text-success {
+            color: variables.$success;
+          }
+        }
+      }
+
+      .task-content {
+        flex: 1;
+
+        .task-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 0.75rem;
+
+          .task-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: variables.$gray-900;
+            margin: 0;
+            line-height: 1.4;
+          }
+        }
+
+        .task-meta {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-bottom: 0.75rem;
+
+          .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.8125rem;
+            color: variables.$gray-600;
+
+            i {
+              font-size: 0.875rem;
+              color: variables.$primary;
+
+              &.text-danger {
+                color: variables.$danger;
+              }
+            }
+
+            span.text-danger {
+              color: variables.$danger;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: variables.$gray-500;
+
+    i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+    }
+  }
+}

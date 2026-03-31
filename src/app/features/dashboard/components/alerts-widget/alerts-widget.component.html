@@ -1,0 +1,43 @@
+<div class="alerts-widget mb-4" *ngIf="hasAlerts">
+  <div class="row g-3">
+    <!-- Risk Projects Alert -->
+    <div class="col-md-6" *ngIf="riskProjects.length > 0">
+      <div class="alert alert-warning">
+        <div class="alert-header">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <h5 class="alert-title">Projets à Risque</h5>
+          <span class="alert-badge">{{ riskProjects.length }}</span>
+        </div>
+        <p class="alert-message">
+          {{ riskProjects.length }} projet(s) dépassent 80% du budget alloué
+        </p>
+        <div class="alert-actions">
+          <a routerLink="/projects" class="btn btn-sm btn-warning">
+            Voir les détails
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overdue Projects Alert -->
+    <div class="col-md-6" *ngIf="overdueProjects.length > 0">
+      <div class="alert alert-danger">
+        <div class="alert-header">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <h5 class="alert-title">Projets en Retard</h5>
+          <span class="alert-badge">{{ overdueProjects.length }}</span>
+        </div>
+        <p class="alert-message">
+          {{ overdueProjects.length }} projet(s) ont dépassé leur date de fin prévue
+        </p>
+        <div class="alert-actions">
+          <a routerLink="/projects" class="btn btn-sm btn-danger">
+            Voir les détails
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
