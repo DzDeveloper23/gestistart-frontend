@@ -1,3 +1,14 @@
+
+<!-- Bouton Hamburger Mobile -->
+<button
+  *ngIf="isMobile && isCollapsed"
+  class="hamburger-btn"
+  type="button"
+  (click)="toggleSidebar()"
+  aria-label="Ouvrir le menu"
+>
+  <i class="bi bi-list"></i>
+</button>
 <aside class="sidebar" [class.collapsed]="isCollapsed">
   <!-- Glow effect background -->
   <div class="sidebar-glow"></div>
